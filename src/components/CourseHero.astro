@@ -1,0 +1,88 @@
+---
+import hero from "../assets/images/miguel-hero.png";
+
+interface Props {
+  course: {
+    title: string;
+    eyebrow: string;
+    schedule: string;
+    period: string;
+    intro: string;
+    description: string;
+  };
+}
+const { course } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__copy">
+    <p class="section-kicker">{course.eyebrow}</p>
+    <h1 class="display">Grupo intermedio<br /><span>de poesía</span></h1>
+    <p class="hero__intro">{course.intro}</p>
+    <p class="hero__description">{course.description}</p>
+    <div class="hero__actions">
+      <a class="button button--red" href="#reserva">Reservar plaza · 50 €</a>
+      <a class="text-link" href="#dudas">Tengo dudas sobre mi nivel</a>
+    </div>
+  </div>
+  <div class="hero__art" aria-hidden="true">
+    <span class="hero__circle"></span>
+    <img src={hero.src} alt="" width="980" height="1051" />
+    <p>martes<br />19:15—21:15</p>
+  </div>
+</section>
+
+<div class="quick-facts" aria-label="Información esencial del curso">
+  <p><span>Día</span>{course.schedule}</p>
+  <p><span>Curso</span>{course.period}</p>
+  <p><span>Formato</span>Presencial · Madrid</p>
+  <p><span>Plazas</span>Grupo reducido</p>
+</div>
+
+<style>
+  .hero {
+    display: grid;
+    width: var(--page);
+    min-height: 690px;
+    margin-inline: auto;
+    grid-template-columns: .92fr 1.08fr;
+    align-items: center;
+  }
+  .hero__copy { position: relative; z-index: 2; padding: 5.5rem 0 5rem; }
+  .display { max-width: 670px; font-size: clamp(4.3rem, 7.2vw, 7.4rem); }
+  .display span { position: relative; white-space: nowrap; }
+  .display span::after {
+    position: absolute; left: 0; right: -.2em; bottom: .03em; height: 8px;
+    border-top: 4px solid var(--red); border-radius: 50%; content: ""; transform: rotate(-1deg);
+  }
+  .hero__intro { max-width: 540px; margin: 2rem 0 .8rem; font-size: clamp(1.25rem, 2vw, 1.7rem); font-weight: 500; line-height: 1.25; }
+  .hero__description { max-width: 545px; margin: 0; color: var(--muted); }
+  .hero__actions { display: flex; margin-top: 2rem; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; }
+  .hero__art { position: relative; height: 100%; min-height: 650px; }
+  .hero__circle { position: absolute; width: min(43vw, 590px); aspect-ratio: 1; top: 50%; right: 0; border-radius: 50%; background: var(--red); transform: translateY(-50%); }
+  .hero__art img { position: absolute; z-index: 1; right: -2%; bottom: -1px; width: min(47vw, 610px); }
+  .hero__art p { position: absolute; z-index: 2; right: 0; top: 15%; margin: 0; color: white; font-size: .72rem; font-weight: 600; letter-spacing: .09em; line-height: 1.4; text-transform: uppercase; transform: rotate(6deg); }
+  .quick-facts { display: grid; border-block: 1px solid var(--line); grid-template-columns: repeat(4, 1fr); }
+  .quick-facts p { margin: 0; padding: 1.6rem clamp(1rem, 3vw, 3rem); border-right: 1px solid var(--line); font-size: .83rem; font-weight: 500; }
+  .quick-facts p:last-child { border: 0; }
+  .quick-facts span { display: block; margin-bottom: .4rem; color: var(--red-dark); font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  @media (max-width: 900px) {
+    .hero { min-height: auto; grid-template-columns: 1fr; }
+    .hero__copy { padding-bottom: 1rem; }
+    .hero__art { min-height: min(100vw, 650px); }
+    .hero__circle { width: 80vw; max-width: 590px; }
+    .hero__art img { right: 0; width: min(88vw, 610px); }
+    .quick-facts { grid-template-columns: 1fr 1fr; }
+    .quick-facts p:nth-child(2) { border-right: 0; }
+    .quick-facts p:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+  }
+  @media (max-width: 520px) {
+    .hero__copy { padding-top: 4rem; }
+    .display { font-size: clamp(3.7rem, 17vw, 5rem); }
+    .hero__description { font-size: .92rem; }
+    .hero__actions { align-items: stretch; flex-direction: column; }
+    .hero__art { min-height: 118vw; }
+    .quick-facts { grid-template-columns: 1fr; }
+    .quick-facts p { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>

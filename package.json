@@ -1,0 +1,17 @@
+{
+  "name": "la-escuela-de-poesia",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "astro": "^7.1.0",
+    "typescript": "^6.0.3"
+  }
+}
