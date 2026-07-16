@@ -21,3 +21,11 @@ La primera landing está disponible en `/cursos/intermedio-martes/`.
 | `pnpm preview` | Previsualiza el build de producción |
 
 Los datos de cada curso viven en `src/content/courses/` y las páginas se generan mediante la ruta dinámica `src/pages/cursos/[slug].astro`.
+
+## Despliegue
+
+La web se publica automáticamente en GitHub Pages cuando se fusionan cambios en `main`:
+
+`https://jsanchezs.github.io/laescueladepoesia/`
+
+El repositorio debe tener seleccionada la opción **Settings → Pages → Source → GitHub Actions**.
