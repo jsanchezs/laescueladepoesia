@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -23,8 +24,11 @@ jobs:
 
       - name: Install, build and upload site
         uses: withastro/action@v6
+        with:
+          package-manager: pnpm@10.12.1
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
