@@ -1,0 +1,199 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import CourseHero from "../../components/CourseHero.astro";
+
+export async function getStaticPaths() {
+  const courses = await getCollection("courses");
+  return courses.map((course) => ({ params: { slug: course.id }, props: { course } }));
+}
+
+interface Props { course: CollectionEntry<"courses"> }
+const { course } = Astro.props;
+const data = course.data;
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <SiteHeader />
+  <main>
+    <CourseHero course={data} />
+
+    <section class="section fit" id="para-quien">
+      <div class="container fit__grid">
+        <div>
+          <p class="section-kicker">¿Es para ti?</p>
+          <h2 class="section-title">Este no es un curso<br /><span class="red-stroke">de iniciación.</span></h2>
+        </div>
+        <div class="fit__list">
+          {data.audience.map((item, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}.</span>
+              <p>{item}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section method" id="metodo">
+      <div class="container">
+        <p class="section-kicker">Una práctica completa</p>
+        <div class="method__heading">
+          <h2 class="section-title">Leemos.<br />Escribimos.<br /><em>Recitamos.</em></h2>
+          <p>La poesía se aprende haciéndola, compartiéndola y escuchándola en voz alta.</p>
+        </div>
+        <div class="method__grid">
+          {data.method.map((item, index) => (
+            <article>
+              <span>0{index + 1}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <strong>{item.note}</strong>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <aside class="manifesto">
+      <p>“No busques inspiración.<br /><em>Busca atención.</em>”</p>
+      <span>Una clase semanal para volver a mirar.</span>
+    </aside>
+
+    <section class="section info" id="informacion">
+      <div class="container">
+        <div class="info__top">
+          <div>
+            <p class="section-kicker">Todo lo importante</p>
+            <h2 class="section-title">Información<br /><span class="red-stroke">práctica</span></h2>
+          </div>
+          <p class="info__note">Un grupo presencial y reducido para poder leer, escribir y trabajar cada poema con tiempo.</p>
+        </div>
+        <dl class="details">
+          {data.details.map((item) => (
+            <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
+          ))}
+        </dl>
+        <div class="prices">
+          {data.prices.map((price) => (
+            <article class:list={{ recommended: price.recommended }}>
+              {price.recommended && <span>Recomendado</span>}
+              <h3>{price.label}</h3>
+              <p>{price.price}</p>
+            </article>
+          ))}
+        </div>
+        <p class="deposit">{data.deposit}</p>
+      </div>
+    </section>
+
+    <section class="section booking" id="reserva">
+      <div class="container booking__grid">
+        <div>
+          <p class="section-kicker">Una plaza, tres pasos</p>
+          <h2 class="section-title">Tu próximo poema<br /><span class="red-stroke">empieza aquí.</span></h2>
+          <a class="button" href="#reserva" aria-label="La reserva estará disponible próximamente">Reservar mi plaza · 50 €</a>
+          <p class="booking__dev-note">El formulario y el pago se conectarán en la siguiente fase.</p>
+        </div>
+        <ol>
+          {data.process.map((step, index) => (
+            <li><span>0{index + 1}</span>{step}</li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section faq" id="dudas">
+      <div class="container faq__grid">
+        <div>
+          <p class="section-kicker">Antes de reservar</p>
+          <h2 class="section-title">¿Te queda<br />alguna duda?</h2>
+        </div>
+        <div>
+          {data.faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}<span aria-hidden="true">+</span></summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+          <a class="text-link" href="#dudas">Tengo dudas sobre si este grupo encaja conmigo →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .fit__grid, .faq__grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(3rem, 8vw, 9rem); }
+  .fit__list { border-top: 1px solid var(--ink); }
+  .fit__list article { display: grid; padding: 1.5rem 0; border-bottom: 1px solid var(--line); grid-template-columns: 3.2rem 1fr; gap: 1rem; }
+  .fit__list span { color: var(--red); font-family: var(--serif); font-size: 1.5rem; }
+  .fit__list p { max-width: 560px; margin: 0; font-size: clamp(1.05rem, 1.8vw, 1.35rem); line-height: 1.35; }
+  .method { background: var(--paper-light); }
+  .method__heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+  .method__heading .section-title em { color: var(--red); font-weight: 400; }
+  .method__heading > p { max-width: 340px; margin: 0 0 .8rem; color: var(--muted); }
+  .method__grid { display: grid; margin-top: 5rem; border-top: 1px solid var(--ink); grid-template-columns: repeat(3, 1fr); }
+  .method__grid article { position: relative; min-height: 350px; padding: 2rem clamp(1.3rem, 3vw, 2.8rem) 2.2rem 0; border-right: 1px solid var(--line); }
+  .method__grid article + article { padding-left: clamp(1.3rem, 3vw, 2.8rem); }
+  .method__grid article:last-child { border: 0; }
+  .method__grid span { color: var(--red); font-family: var(--serif); font-size: 2rem; }
+  .method__grid h3 { margin: 3rem 0 1rem; font-family: var(--serif); font-size: clamp(2rem, 3vw, 3.2rem); font-weight: 400; line-height: 1; }
+  .method__grid p { color: var(--muted); }
+  .method__grid strong { position: absolute; right: 2rem; bottom: 2.2rem; left: inherit; max-width: 250px; color: var(--red-dark); font-size: .78rem; font-weight: 500; }
+  .manifesto { display: flex; min-height: 330px; padding: 4rem max(20px, calc((100% - 1180px) / 2)); align-items: center; justify-content: space-between; gap: 2rem; background: var(--ink); color: var(--paper-light); }
+  .manifesto p { margin: 0; font-family: var(--serif); font-size: clamp(3rem, 6vw, 6rem); line-height: .95; }
+  .manifesto em { color: var(--red); font-weight: 400; }
+  .manifesto span { max-width: 190px; font-size: .75rem; letter-spacing: .04em; transform: rotate(-4deg); }
+  .info__top { display: flex; align-items: end; justify-content: space-between; gap: 3rem; }
+  .info__note { max-width: 430px; margin-bottom: .8rem; color: var(--muted); }
+  .details { display: grid; margin: 5rem 0 0; border-block: 1px solid var(--ink); grid-template-columns: repeat(3, 1fr); }
+  .details div { padding: 1.4rem; border-right: 1px solid var(--line); }
+  .details div:nth-child(3n) { border-right: 0; }
+  .details div:nth-child(-n + 3) { border-bottom: 1px solid var(--line); }
+  .details dt { color: var(--red-dark); font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  .details dd { margin: .5rem 0 0; font-family: var(--serif); font-size: clamp(1.35rem, 2vw, 2rem); }
+  .prices { display: grid; margin-top: 4rem; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .prices article { position: relative; min-height: 190px; padding: 2rem; border: 1px solid var(--ink); }
+  .prices article.recommended { background: var(--red); color: white; border-color: var(--red); transform: translateY(-12px); }
+  .prices article > span { position: absolute; top: 1rem; right: 1rem; font-size: .62rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .prices h3 { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .prices p { margin: 2.5rem 0 0; font-family: var(--serif); font-size: clamp(3.2rem, 5vw, 5rem); line-height: 1; }
+  .deposit { max-width: 710px; margin: 2rem 0 0; font-weight: 500; }
+  .booking { background: var(--red); color: white; }
+  .booking .section-kicker { color: white; }
+  .booking__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(3rem, 10vw, 10rem); }
+  .booking .button { margin-top: 3rem; background: var(--ink); }
+  .booking__dev-note { max-width: 320px; margin: .8rem 0 0; font-size: .7rem; opacity: .7; }
+  .booking ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255,255,255,.7); }
+  .booking li { display: grid; padding: 1.7rem 0; border-bottom: 1px solid rgba(255,255,255,.4); grid-template-columns: 3.5rem 1fr; align-items: center; font-size: 1.05rem; }
+  .booking li span { font-family: var(--serif); font-size: 1.8rem; }
+  .faq details { border-top: 1px solid var(--ink); }
+  .faq details:last-of-type { border-bottom: 1px solid var(--ink); }
+  .faq summary { display: flex; padding: 1.4rem 0; justify-content: space-between; gap: 1rem; cursor: pointer; font-weight: 500; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary span { color: var(--red); font-size: 1.4rem; transition: transform .2s; }
+  .faq details[open] summary span { transform: rotate(45deg); }
+  .faq details p { max-width: 620px; margin: -.2rem 3rem 1.5rem 0; color: var(--muted); }
+  .faq .text-link { margin-top: 1.5rem; }
+  @media (max-width: 800px) {
+    .fit__grid, .faq__grid, .booking__grid { grid-template-columns: 1fr; }
+    .method__heading, .info__top { align-items: flex-start; flex-direction: column; }
+    .method__grid { grid-template-columns: 1fr; }
+    .method__grid article, .method__grid article + article { min-height: 270px; padding: 2rem 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .method__grid strong { left: 0; }
+    .manifesto { align-items: flex-start; flex-direction: column; }
+    .details { grid-template-columns: 1fr 1fr; }
+    .details div:nth-child(3n) { border-right: 1px solid var(--line); }
+    .details div:nth-child(2n) { border-right: 0; }
+    .details div:nth-child(-n + 4) { border-bottom: 1px solid var(--line); }
+    .prices { grid-template-columns: 1fr; }
+    .prices article.recommended { transform: none; }
+  }
+  @media (max-width: 520px) {
+    .details { grid-template-columns: 1fr; }
+    .details div { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+    .prices article { min-height: 160px; }
+  }
+</style>
