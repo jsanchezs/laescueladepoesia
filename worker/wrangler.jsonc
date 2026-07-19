@@ -7,6 +7,7 @@
   "vars": {
     "STRIPE_PRICE_ID": "price_1TutQrFsriLGHuvtaihfFnZL",
     "STRIPE_PRODUCT_ID": "prod_UuineYIPUqYJlK",
+    "BREVO_LIST_ID": "3",
     "SITE_URL": "https://jsanchezs.github.io/laescueladepoesia",
     "ALLOWED_ORIGINS": "https://jsanchezs.github.io,http://localhost:4321"
   },
@@ -14,8 +15,7 @@
     "required": [
       "STRIPE_SECRET_KEY",
       "STRIPE_WEBHOOK_SECRET",
-      "BREVO_API_KEY",
-      "BREVO_LIST_ID"
+      "BREVO_API_KEY"
     ]
   },
   "observability": {
