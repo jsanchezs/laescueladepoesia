@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 interface Props { course: CollectionEntry<"courses"> }
 const { course } = Astro.props;
 const data = course.data;
+const checkoutUrl = import.meta.env.PUBLIC_CHECKOUT_URL;
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description}>
@@ -93,8 +94,18 @@ const data = course.data;
         <div>
           <p class="section-kicker">Una plaza, tres pasos</p>
           <h2 class="section-title">Tu próximo poema<br /><span class="red-stroke">empieza aquí.</span></h2>
-          <a class="button" href="#reserva" aria-label="La reserva estará disponible próximamente">Reservar mi plaza · 50 €</a>
-          <p class="booking__dev-note">El formulario y el pago se conectarán en la siguiente fase.</p>
+          {checkoutUrl ? (
+            <form class="checkout-form" action={checkoutUrl} method="post">
+              <button class="button" type="submit">Reservar mi plaza · 50 €</button>
+            </form>
+          ) : (
+            <button class="button" type="button" disabled>Reserva no disponible</button>
+          )}
+          <p class="booking__dev-note">
+            {checkoutUrl
+              ? "Pago seguro gestionado por Stripe. La señal se descuenta del primer pago."
+              : "El pago se activará próximamente."}
+          </p>
         </div>
         <ol>
           {data.process.map((step, index) => (
@@ -165,6 +176,9 @@ const data = course.data;
   .booking .section-kicker { color: white; }
   .booking__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(3rem, 10vw, 10rem); }
   .booking .button { margin-top: 3rem; background: var(--ink); }
+  .booking .button:disabled { cursor: not-allowed; opacity: .58; transform: none; }
+  .checkout-form { margin: 0; }
+  .checkout-form .button { cursor: pointer; font-family: inherit; }
   .booking__dev-note { max-width: 320px; margin: .8rem 0 0; font-size: .7rem; opacity: .7; }
   .booking ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255,255,255,.7); }
   .booking li { display: grid; padding: 1.7rem 0; border-bottom: 1px solid rgba(255,255,255,.4); grid-template-columns: 3.5rem 1fr; align-items: center; font-size: 1.05rem; }

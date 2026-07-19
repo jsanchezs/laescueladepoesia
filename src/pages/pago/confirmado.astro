@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const courseUrl = `${import.meta.env.BASE_URL}cursos/intermedio-martes/`;
+---
+
+<BaseLayout
+  title="Reserva recibida | La Escuela de Poesía"
+  description="Confirmación de la reserva del curso de La Escuela de Poesía."
+>
+  <main class="payment-result">
+    <div class="payment-result__card">
+      <p class="section-kicker">Pago completado</p>
+      <h1>Tu plaza está<br /><em>reservada.</em></h1>
+      <p>
+        Gracias por abonar la señal de 50 €. Stripe te enviará el justificante al correo
+        que has indicado durante el pago.
+      </p>
+      <p>Me pondré en contacto contigo para confirmar los detalles del curso.</p>
+      <a class="button" href={courseUrl}>Volver al curso</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .payment-result { display: grid; min-height: 100vh; padding: 2rem; place-items: center; }
+  .payment-result__card { width: min(680px, 100%); padding: clamp(2rem, 7vw, 5rem); border: 1px solid var(--ink); background: var(--paper-light); }
+  h1 { margin: 0 0 2rem; font-family: var(--serif); font-size: clamp(3.5rem, 9vw, 6.5rem); font-weight: 400; letter-spacing: -.04em; line-height: .88; }
+  h1 em { color: var(--red); font-weight: 400; }
+  p:not(.section-kicker) { max-width: 520px; color: var(--muted); }
+  .button { margin-top: 1.5rem; }
+</style>

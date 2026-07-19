@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 tmp/
+worker/worker-configuration.d.ts
 
 .env
 .env.*
