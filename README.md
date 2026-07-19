@@ -9,7 +9,7 @@ pnpm install
 pnpm dev
 ```
 
-La primera landing está disponible en `/cursos/intermedio-martes/`.
+La primera landing está disponible en `/courses/intermediate-tuesday/`.
 
 ## Comandos
 
@@ -20,7 +20,7 @@ La primera landing está disponible en `/cursos/intermedio-martes/`.
 | `pnpm build` | Genera la web estática en `dist/` |
 | `pnpm preview` | Previsualiza el build de producción |
 
-Los datos de cada curso viven en `src/content/courses/` y las páginas se generan mediante la ruta dinámica `src/pages/cursos/[slug].astro`.
+Los datos de cada curso viven en `src/content/courses/` y las páginas se generan mediante la ruta dinámica `src/pages/courses/[slug].astro`.
 
 ## Despliegue
 
