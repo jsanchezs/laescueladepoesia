@@ -11,7 +11,12 @@
     "ALLOWED_ORIGINS": "https://jsanchezs.github.io,http://localhost:4321"
   },
   "secrets": {
-    "required": ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"]
+    "required": [
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET",
+      "BREVO_API_KEY",
+      "BREVO_LIST_ID"
+    ]
   },
   "observability": {
     "enabled": true,
