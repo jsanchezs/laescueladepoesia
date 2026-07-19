@@ -26,8 +26,6 @@ jobs:
         env:
           PUBLIC_CHECKOUT_URL: ${{ vars.PUBLIC_CHECKOUT_URL }}
         uses: withastro/action@v6
-        with:
-          package-manager: pnpm@11.11.0
 
   deploy:
     if: github.event_name != 'pull_request'
