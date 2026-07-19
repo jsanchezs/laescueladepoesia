@@ -24,8 +24,6 @@ jobs:
 
       - name: Install, build and upload site
         uses: withastro/action@v6
-        with:
-          package-manager: pnpm@11.11.0
 
   deploy:
     if: github.event_name != 'pull_request'
