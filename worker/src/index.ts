@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-const COURSE_SLUG = "intermedio-martes";
+const COURSE_SLUG = "intermediate-tuesday";
 
 export default {
   async fetch(request, env): Promise<Response> {
@@ -38,8 +38,8 @@ async function createCheckoutSession(request: Request, env: Env): Promise<Respon
       line_items: [{ price: env.STRIPE_PRICE_ID, quantity: 1 }],
       customer_creation: "always",
       phone_number_collection: { enabled: true },
-      success_url: `${env.SITE_URL}/pago/confirmado/?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${env.SITE_URL}/pago/cancelado/`,
+      success_url: `${env.SITE_URL}/payment/success/?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${env.SITE_URL}/payment/canceled/`,
       metadata: {
         course_slug: COURSE_SLUG,
         stripe_product_id: env.STRIPE_PRODUCT_ID,
@@ -100,9 +100,6 @@ async function handleStripeWebhook(request: Request, env: Env): Promise<Response
           payment_status: session.payment_status,
           amount_total: session.amount_total,
           currency: session.currency,
-          customer_email: session.customer_details?.email,
-          customer_name: session.customer_details?.name,
-          customer_phone: session.customer_details?.phone,
           course_slug: session.metadata?.course_slug,
         }),
       );
