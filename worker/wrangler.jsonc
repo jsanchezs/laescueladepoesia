@@ -5,8 +5,8 @@
   "compatibility_date": "2026-07-19",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "STRIPE_PRICE_ID": "price_1Tus9sC6naw5tpEAwuSZE0DV",
-    "STRIPE_PRODUCT_ID": "prod_UuhZWmSET0otlV",
+    "STRIPE_PRICE_ID": "price_1TutQrFsriLGHuvtaihfFnZL",
+    "STRIPE_PRODUCT_ID": "prod_UuineYIPUqYJlK",
     "SITE_URL": "https://jsanchezs.github.io/laescueladepoesia",
     "ALLOWED_ORIGINS": "https://jsanchezs.github.io,http://localhost:4321"
   },
